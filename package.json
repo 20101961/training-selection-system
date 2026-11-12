@@ -1,0 +1,41 @@
+{
+  "name": "lab-selection-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "学生实训室进组选拔填报系统 — 半自动选拔 SPA (spec v1.1)",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,web -c blue,green \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "node --disable-warning=ExperimentalWarning --watch server/index.js",
+    "dev:web": "vite",
+    "db:init": "node --disable-warning=ExperimentalWarning server/db/init.js",
+    "db:seed": "node --disable-warning=ExperimentalWarning server/db/seed.js",
+    "db:dump": "node --disable-warning=ExperimentalWarning server/db/dump.js",
+    "db:dump-mysql": "node --disable-warning=ExperimentalWarning server/db/dump-mysql.js",
+    "db:copy": "node --disable-warning=ExperimentalWarning server/db/export-sqlite.js",
+    "build": "vite build",
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}

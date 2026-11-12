@@ -1,0 +1,12 @@
+node_modules/
+dist/
+server/data/*.db
+server/data/*.db-shm
+server/data/*.db-wal
+*.log
+.env
+.env.local
+.DS_Store
+
+# 数据库导出/备份（含真实数据，禁止提交）
+exports/
