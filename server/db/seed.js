@@ -92,11 +92,15 @@ tx(() => {
   db.prepare("INSERT OR IGNORE INTO rounds(round_no,type,name,status) VALUES(1,'initial','第一轮 初选+确认','open')").run();
   db.prepare("INSERT OR IGNORE INTO rounds(round_no,type,name,status) VALUES(2,'supplementary','第二轮 补录','pending')").run();
 
-  // 阶段时间窗
+  // 阶段时间窗：以本次 seed 时间为基准重铺，并清除教务强制态（重复 seed = 重置演示时钟）
   for (const [no, code, name, opens, closes] of stageDefs) {
     db.prepare(
-      `INSERT OR IGNORE INTO stages(stage_no,code,name,opens_at,closes_at,status)
-       VALUES(?,?,?,?,?,?)`
+      `INSERT INTO stages(stage_no,code,name,opens_at,closes_at,status)
+       VALUES(?,?,?,?,?,?)
+       ON CONFLICT(stage_no) DO UPDATE SET
+         code=excluded.code, name=excluded.name,
+         opens_at=excluded.opens_at, closes_at=excluded.closes_at,
+         status=excluded.status, force_state=NULL, updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now')`
     ).run(no, code, name, iso(opens), iso(closes), stageStatus(opens, closes));
   }
 
